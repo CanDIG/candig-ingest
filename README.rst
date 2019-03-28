@@ -3,10 +3,9 @@ CanDIG-ingest
 ==============
 
 Routines for ingesting metadata into a CanDIG 1.0 server
-Requires `ga4gh-server
-<https://github.com/ga4gh/ga4gh-server>`_
-, `docopt<http://docopt.readthedocs.io/en/latest/>`_
-and `pandas<https://github.com/pandas-dev/pandas>`_.
+Requires [ga4gh-server](https://github.com/ga4gh/ga4gh-server), 
+[docopt](http://docopt.readthedocs.io/en/latest/)
+and [pandas](https://github.com/pandas-dev/pandas).
 
 * Free software: GNU General Public License v3
 
