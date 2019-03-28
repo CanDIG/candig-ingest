@@ -25,8 +25,8 @@ You can run the ingestion and test a server with the resulting repo as follows
     pip install git+https://github.com/CanDIG/candig-schemas.git@develop#egg=ga4gh_schemas
     pip install git+https://github.com/CanDIG/candig-client.git@authz#egg=ga4gh_client
     pip install git+https://github.com/CanDIG/candig-server.git@develop#egg=ga4gh_server
-    pip install git+https://github.com/CanDIG/candig-ingest.git@master#egg=PROFYLE_ingest
-
+    pip install git+https://github.com/CanDIG/candig-ingest.git
+    
     # setup initial peers
     mkdir -p ga4gh/server/templates
     touch ga4gh/server/templates/initial_peers.txt
