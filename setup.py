@@ -24,7 +24,7 @@ test_requirements = [
 ]
 
 setup(
-    name='candig-ingest',
+    name='ingest',
     version='1.0.0',
     description="Routines for ingesting metadata to a CanDIG repository",
     long_description=readme + '\n\n' + history,
@@ -32,9 +32,11 @@ setup(
     author_email='',
     url='https://github.com/CanDIG/candig-ingest.git',
     packages=find_packages(include=['candig-ingest']),
+    namespace_packages=["ga4gh"],
     entry_points={
         'console_scripts': [
-            'ingest = candig-ingest.ingest:main'
+            'ingest=ga4gh.ingest.ingest:main'
+            'load_tier=ga4gh.ingest.load_tiers:main'
         ]
     },
     include_package_data=True,
