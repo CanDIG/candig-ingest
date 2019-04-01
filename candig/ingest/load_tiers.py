@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def load_tiers():
+def main():
     """
     Update metadata json object with tier information from project_tiers for a
     project.
@@ -97,4 +97,4 @@ def load_tiers():
 
 
 if __name__ == "__main__":
-    load_tiers()
+    main()
