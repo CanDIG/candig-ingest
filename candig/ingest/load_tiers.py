@@ -74,18 +74,45 @@ def main():
                 updated_record = {}
 
                 for field in table[table_name]:
+                    
+                    if field == 'attributes':
+                        # Attributes can hold additional fields that are not
+                        # part of the CanDIG schema
+                        
+                        updated_record[field] = {}
 
-                    updated_record[field] = table[table_name][field]
+                        for attribute_field in table[table_name][field]:
+                            
+                            updated_record[field][attribute_field] = table[table_name][field][attribute_field]
+                            
+                            name = '{0}.{1}'.format(field, attribute_field)
+                            
+                            if (table_name, name) in project_tiers.index:
+                                
+                                tier = project_tiers.loc[[(table_name, name)], project.lower()]
 
-                    if (table_name, field) in project_tiers.index:
-
-                        tier = project_tiers.loc[[(table_name, field)], project.lower()]
-
-                        updated_record['{0}Tier'.format(field)] = int(tier)
-
+                                updated_record[field]['{0}Tier'.format(attribute_field)] = int(tier)
+                            else:
+                                logger.error('Unassigned tier info for {table}.{field}.{attribute_field}'.format(
+                                    table=table_name, 
+                                    field=field,
+                                    attribute_field=attribute_field,
+                                    ))
+                        
                     else:
-                        logger.error('Unassigned tier info for {table}.{field}'.format(
-                            table=table_name, field=field))
+                        # Regular field
+                        
+                        updated_record[field] = table[table_name][field]
+
+                        if (table_name, field) in project_tiers.index:
+    
+                            tier = project_tiers.loc[[(table_name, field)], project.lower()]
+    
+                            updated_record['{0}Tier'.format(field)] = int(tier)
+    
+                        else:
+                            logger.error('Unassigned tier info for {table}.{field}'.format(
+                                table=table_name, field=field))
 
                 table[table_name] = updated_record
 
