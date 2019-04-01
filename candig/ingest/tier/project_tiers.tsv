@@ -40,6 +40,15 @@ Chemotherapy	treatingCentreName		string		1	1	1
 Chemotherapy	treatmentIntent		string		2	2	2
 Chemotherapy	treatmentPlanId		id		0	0	0
 Chemotherapy	type		string		1	1	1
+Chemotherapy	attributes.startInterval	LabKey specific field	integer		1	0	1
+Chemotherapy	attributes.beginningDateOfTreatment	LabKey specific field	integer		1	0	1
+Chemotherapy	attributes.savets	LabKey specific field	string		1	0	1
+Chemotherapy	attributes.instanceName	LabKey specific field	string		1	0	1
+Chemotherapy	attributes.differenciateId	LabKey specific field	string		1	0	1
+Chemotherapy	attributes.endDateOfTreatment	LabKey specific field	integer		1	0	1
+Chemotherapy	attributes.endInterval	LabKey specific field	integer		1	0	1
+Chemotherapy	attributes.therapyTimepoint	LabKey specific field	integer		1	0	1
+Chemotherapy	attributes.therapyAgent	LabKey specific field	string		1	0	1
 Complication	date		datetime	2009-12-12 00:00:00	1	1	1
 Complication	lateComplicationOfTherapyDeveloped		string		1	1	1
 Complication	lateToxicityDetail		string		1	1	1
@@ -241,6 +250,7 @@ Sample	startInterval		integer		1	1	1
 Sample	tissueDiseaseState		string		2	2	2
 Sample	topologicalCode		string	C306	0	0	0
 Sample	units		string	grams	2	2	2
+Sample	attributes.collectionTimePoint	LabKey specific field	integer		1	1	1
 Sequencing	dnaLibraryKit		string	Illumina TruSeq PCR-free library prep kit	1	1	1
 Sequencing	dnaReadLength		string	Paired end, 150 bp	1	1	1
 Sequencing	dnaSeqPlatform		string	HiSeq X	1	1	1
