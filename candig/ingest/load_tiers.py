@@ -78,20 +78,41 @@ def main():
                     if field == 'attributes':
                         # Attributes can hold additional fields that are not
                         # part of the CanDIG schema
+                        # 'attributes' : {
+                        #   'attr': {
+                        #       <field_name> : {
+                        #           'values': [
+                        #                   { int32Value: <value> },
+                        #                   { stringValue: <value> },
+                        #                   { ... }
+                        #               ]
+                        #           },
+                        #       },
+                        #    }
                         
-                        updated_record[field] = {}
+                        updated_record[field] = {'attr': {}}
 
                         for attribute_field in table[table_name][field]:
                             
-                            updated_record[field][attribute_field] = table[table_name][field][attribute_field]
+                            # Add the field
+                            updated_record[field]['attr'][attribute_field] = {
+                                'values': [
+                                    {'stringValue': str(table[table_name][field][attribute_field])}
+                                    ]
+                                }
                             
                             name = '{0}.{1}'.format(field, attribute_field)
                             
+                            # Add the corresponding tier info
                             if (table_name, name) in project_tiers.index:
                                 
                                 tier = project_tiers.loc[[(table_name, name)], project.lower()]
 
-                                updated_record[field]['{0}Tier'.format(attribute_field)] = int(tier)
+                                updated_record[field]['attr']['{0}Tier'.format(attribute_field)] = {
+                                    'values': [
+                                        {"int32Value": int(tier)}
+                                        ]
+                                    }
                             else:
                                 logger.error('Unassigned tier info for {table}.{field}.{attribute_field}'.format(
                                     table=table_name, 
