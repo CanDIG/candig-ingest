@@ -13,7 +13,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     "docopt",
-    "ga4gh-server",
+    "candig-server",
     "pandas",
     ]
 
@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='candig-ingest',
-    version='1.0.0',
+    version='1.1.0',
     description='Routines for ingesting metadata to a CanDIG repository',
     long_description='\n\n'.join((readme, history)),
     url='https://github.com/CanDIG/candig-ingest.git',
