@@ -20,37 +20,37 @@ import json
 import os
 from docopt import docopt
 
-import ga4gh.server.datarepo as repo
-import ga4gh.server.exceptions as exceptions
+import candig.server.datarepo as repo
+import candig.server.exceptions as exceptions
 
-from ga4gh.server.datamodel.datasets import Dataset
-from ga4gh.server.datamodel.bio_metadata import Individual
-from ga4gh.server.datamodel.bio_metadata import Biosample
-from ga4gh.server.datamodel.clinical_metadata import Patient
-from ga4gh.server.datamodel.clinical_metadata import Enrollment
-from ga4gh.server.datamodel.clinical_metadata import Consent
-from ga4gh.server.datamodel.clinical_metadata import Diagnosis
-from ga4gh.server.datamodel.clinical_metadata import Sample
-from ga4gh.server.datamodel.clinical_metadata import Treatment
-from ga4gh.server.datamodel.clinical_metadata import Outcome
-from ga4gh.server.datamodel.clinical_metadata import Complication
-from ga4gh.server.datamodel.clinical_metadata import Tumourboard
-from ga4gh.server.datamodel.clinical_metadata import Chemotherapy
-from ga4gh.server.datamodel.clinical_metadata import Radiotherapy
-from ga4gh.server.datamodel.clinical_metadata import Immunotherapy
-from ga4gh.server.datamodel.clinical_metadata import Surgery
-from ga4gh.server.datamodel.clinical_metadata import Celltransplant
-from ga4gh.server.datamodel.clinical_metadata import Slide
-from ga4gh.server.datamodel.clinical_metadata import Study
-from ga4gh.server.datamodel.clinical_metadata import Labtest
-from ga4gh.server.datamodel.bio_metadata import Experiment
-from ga4gh.server.datamodel.bio_metadata import Analysis
-from ga4gh.server.datamodel.pipeline_metadata import Extraction
-from ga4gh.server.datamodel.pipeline_metadata import Sequencing
-from ga4gh.server.datamodel.pipeline_metadata import Alignment
-from ga4gh.server.datamodel.pipeline_metadata import VariantCalling
-from ga4gh.server.datamodel.pipeline_metadata import FusionDetection
-from ga4gh.server.datamodel.pipeline_metadata import ExpressionAnalysis
+from candig.server.datamodel.datasets import Dataset
+from candig.server.datamodel.bio_metadata import Individual
+from candig.server.datamodel.bio_metadata import Biosample
+from candig.server.datamodel.clinical_metadata import Patient
+from candig.server.datamodel.clinical_metadata import Enrollment
+from candig.server.datamodel.clinical_metadata import Consent
+from candig.server.datamodel.clinical_metadata import Diagnosis
+from candig.server.datamodel.clinical_metadata import Sample
+from candig.server.datamodel.clinical_metadata import Treatment
+from candig.server.datamodel.clinical_metadata import Outcome
+from candig.server.datamodel.clinical_metadata import Complication
+from candig.server.datamodel.clinical_metadata import Tumourboard
+from candig.server.datamodel.clinical_metadata import Chemotherapy
+from candig.server.datamodel.clinical_metadata import Radiotherapy
+from candig.server.datamodel.clinical_metadata import Immunotherapy
+from candig.server.datamodel.clinical_metadata import Surgery
+from candig.server.datamodel.clinical_metadata import Celltransplant
+from candig.server.datamodel.clinical_metadata import Slide
+from candig.server.datamodel.clinical_metadata import Study
+from candig.server.datamodel.clinical_metadata import Labtest
+from candig.server.datamodel.bio_metadata import Experiment
+from candig.server.datamodel.bio_metadata import Analysis
+from candig.server.datamodel.pipeline_metadata import Extraction
+from candig.server.datamodel.pipeline_metadata import Sequencing
+from candig.server.datamodel.pipeline_metadata import Alignment
+from candig.server.datamodel.pipeline_metadata import VariantCalling
+from candig.server.datamodel.pipeline_metadata import FusionDetection
+from candig.server.datamodel.pipeline_metadata import ExpressionAnalysis
 
 
 class CandigRepo(object):
