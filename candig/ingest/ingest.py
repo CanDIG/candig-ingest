@@ -374,7 +374,7 @@ def main():
             'metadata': repo.clinical_metadata_map,
             'pipeline_metadata': repo.pipeline_metadata_map
         }
-        metadata_key = metadata.keys()[0]
+        metadata_key = list(metadata.keys())[0]
 
         # Iterate through metadata file type based on key and update the dataset
         for individual in metadata[metadata_key]:
@@ -388,11 +388,11 @@ def main():
                         if record.get(x):
                             local_id_list.append(record[x])
                         else:
-                            print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
+                            print(("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
                                 table, 
                                 metadata_map[metadata_key][table]['local_id'],
                                 local_id_list,
-                                ))
+                                )))
                             local_id_list = None
                             break
                     if not local_id_list:
@@ -407,8 +407,8 @@ def main():
                     try:
                         metadata_map[metadata_key][table]['repo_add'](repo_obj)
                     except exceptions.DuplicateNameException:
-                        print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
-                            table, local_id, metadata_map[metadata_key][table]['local_id']))
+                        print(("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
+                            table, local_id, metadata_map[metadata_key][table]['local_id'])))
 
     return None
 
