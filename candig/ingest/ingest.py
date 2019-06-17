@@ -355,7 +355,7 @@ def main():
 
     # Read and parse profyle metadata json
     with open(metadata_json, 'r') as json_datafile:
-        metadata = json.load(json_datafile, 'UTF-8')
+        metadata = json.load(json_datafile)
 
     # Create a dataset
     dataset = Dataset(dataset_name)
