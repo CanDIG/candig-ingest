@@ -24,7 +24,7 @@ setup(
     name='candig-ingest',
     version='1.3.0',
     description='Routines for ingesting metadata to a CanDIG repository',
-    long_description='\n\n'.join((readme, history)),
+    long_description=readme,
     url='https://github.com/CanDIG/candig-ingest.git',
     author='CanDIG team',
     author_email='info@distributedgenomics.ca',
