@@ -8,9 +8,6 @@ from setuptools import setup, find_packages
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
-
 requirements = [
     "docopt",
     "candig-server",
@@ -25,9 +22,9 @@ test_requirements = [
 
 setup(
     name='candig-ingest',
-    version='1.2.0',
+    version='1.3.0',
     description='Routines for ingesting metadata to a CanDIG repository',
-    long_description='\n\n'.join((readme, history)),
+    long_description=readme,
     url='https://github.com/CanDIG/candig-ingest.git',
     author='CanDIG team',
     author_email='info@distributedgenomics.ca',

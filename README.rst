@@ -11,23 +11,19 @@ and [pandas](https://github.com/pandas-dev/pandas).
 
 
 You can run the ingestion and test a server with the resulting repo as follows 
-(requires Python 2.7 for the candig server)
+(requires Python 2.7 for candig-server<1.0.0, or Python 3.6 for candig-server>=1.0.0, note that Python 3.7 is not currently supported.)
 
 .. code:: bash
 
     # Install
-    virtualenv test_server
+    virtualenv test_server # If you are running Python 2
+    python3 -m venv test_server # If you are running Python 3.6
+    
     cd test_server
     source bin/activate
     pip install --upgrade pip setuptools
-    pip install git+https://github.com/CanDIG/candig-schemas.git@v0.7.0
-    pip install git+https://github.com/CanDIG/candig-client.git@v0.7.0
-    pip install git+https://github.com/CanDIG/candig-server.git@v0.9.2
-    pip install git+https://github.com/CanDIG/candig-ingest.git@v1.2.0
-    
-    # setup initial peers
-    mkdir -p ga4gh/server/templates
-    touch ga4gh/server/templates/initial_peers.txt
+    pip install candig-server # Specify anything <1.0.0 for Python 2.7, or >=1.0.0 for Python 3.6.
+    pip install candig-ingest
 
     # ingest data and make the repo
     mkdir ga4gh-example-data
