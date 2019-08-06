@@ -22,7 +22,7 @@ test_requirements = [
 
 setup(
     name='candig-ingest',
-    version='1.3.0',
+    version='1.3.1',
     description='Routines for ingesting metadata to a CanDIG repository',
     long_description=readme,
     url='https://github.com/CanDIG/candig-ingest.git',
@@ -41,4 +41,9 @@ setup(
     zip_safe=False,
     license="GNU General Public License v3",
     keywords='candig-ingest',
+    classifiers=[
+        'Natural Language :: English',
+        'Programming Language :: Python :: 3.6',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
+    ]
    )
