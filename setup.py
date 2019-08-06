@@ -23,6 +23,7 @@ test_requirements = [
 setup(
     name='candig-ingest',
     version='1.3.1',
+    use_scm_version={"write_to": "candig/ingest/_version.py"},
     description='Routines for ingesting metadata to a CanDIG repository',
     long_description=readme,
     url='https://github.com/CanDIG/candig-ingest.git',
