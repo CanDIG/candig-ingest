@@ -348,7 +348,7 @@ def main():
     """
     """
     # Parse arguments
-    args = docopt(__doc__, version='ingest 0.2')
+    args = docopt(__doc__, version='ingest from-git-master')
     repo_filename = args['<repo_filename>']
     dataset_name = args['<dataset_name>']
     metadata_json = args['<metadata_json>']
