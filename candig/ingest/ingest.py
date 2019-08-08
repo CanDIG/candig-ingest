@@ -20,7 +20,7 @@ import json
 import os
 from docopt import docopt
 
-import candig.ingest.__version__ as version
+import candig.ingest._version as version
 
 import candig.server.datarepo as repo
 import candig.server.exceptions as exceptions
