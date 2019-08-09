@@ -20,6 +20,8 @@ import json
 import os
 from docopt import docopt
 
+import candig.ingest._version as version
+
 import candig.server.datarepo as repo
 import candig.server.exceptions as exceptions
 
@@ -348,7 +350,7 @@ def main():
     """
     """
     # Parse arguments
-    args = docopt(__doc__, version='ingest from-git-master')
+    args = docopt(__doc__, version='ingest ' + str(version.version))
     repo_filename = args['<repo_filename>']
     dataset_name = args['<dataset_name>']
     metadata_json = args['<metadata_json>']
