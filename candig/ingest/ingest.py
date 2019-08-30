@@ -366,51 +366,52 @@ def main():
     # Open and load the data
     with CandigRepo(repo_filename) as repo:
 
-        # Add dataset
-        try:
-            repo.add_dataset(dataset)
-        except exceptions.DuplicateNameException:
-            pass
+        with repo._repo.database.transaction():
+            # Add dataset
+            try:
+                repo.add_dataset(dataset)
+            except exceptions.DuplicateNameException:
+                pass
 
-        metadata_map = {
-            'metadata': repo.clinical_metadata_map,
-            'pipeline_metadata': repo.pipeline_metadata_map
-        }
-        metadata_key = list(metadata.keys())[0]
+            metadata_map = {
+                'metadata': repo.clinical_metadata_map,
+                'pipeline_metadata': repo.pipeline_metadata_map
+            }
+            metadata_key = list(metadata.keys())[0]
 
-        # Iterate through metadata file type based on key and update the dataset
-        for individual in metadata[metadata_key]:
+            # Iterate through metadata file type based on key and update the dataset
+            for individual in metadata[metadata_key]:
 
-            for table in individual:
-                if table in metadata_map[metadata_key]:
+                for table in individual:
+                    if table in metadata_map[metadata_key]:
 
-                    record = individual[table]
-                    local_id_list = []
-                    for x in metadata_map[metadata_key][table]['local_id']:
-                        if record.get(x):
-                            local_id_list.append(record[x])
-                        else:
-                            print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
-                                table, 
-                                metadata_map[metadata_key][table]['local_id'],
-                                local_id_list,
-                                ))
-                            local_id_list = None
-                            break
-                    if not local_id_list:
-                        continue
+                        record = individual[table]
+                        local_id_list = []
+                        for x in metadata_map[metadata_key][table]['local_id']:
+                            if record.get(x):
+                                local_id_list.append(record[x])
+                            else:
+                                print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
+                                    table,
+                                    metadata_map[metadata_key][table]['local_id'],
+                                    local_id_list,
+                                    ))
+                                local_id_list = None
+                                break
+                        if not local_id_list:
+                            continue
 
-                    local_id = "_".join(local_id_list)
+                        local_id = "_".join(local_id_list)
 
-                    obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
-                    repo_obj = obj.populateFromJson(json.dumps(record))
+                        obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
+                        repo_obj = obj.populateFromJson(json.dumps(record))
 
-                    # Add object into the repo file
-                    try:
-                        metadata_map[metadata_key][table]['repo_add'](repo_obj)
-                    except exceptions.DuplicateNameException:
-                        print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
-                            table, local_id, metadata_map[metadata_key][table]['local_id']))
+                        # Add object into the repo file
+                        try:
+                            metadata_map[metadata_key][table]['repo_add'](repo_obj)
+                        except exceptions.DuplicateNameException:
+                            print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
+                                table, local_id, metadata_map[metadata_key][table]['local_id']))
 
     return None
 
