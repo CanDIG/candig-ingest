@@ -30,7 +30,7 @@ setup(
     url='https://github.com/CanDIG/candig-ingest.git',
     author='CanDIG team',
     author_email='info@distributedgenomics.ca',
-    packages=find_packages(include=['candig', 'candig.ingest'], exclude=['*.json']),
+    packages=find_packages(include=['candig', 'candig.ingest']),
     namespace_packages=['candig'],
     entry_points={
         'console_scripts': [
