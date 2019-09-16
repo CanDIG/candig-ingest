@@ -1,1 +1,1 @@
-exclude candig/ingest/mock_data
+prune candig/ingest/mock_data
