@@ -180,6 +180,12 @@ Outcome	summaryStage		string		2	2	2
 Outcome	vitalStatus		string		2	2	2
 Outcome	weight		float	55	1	1	1
 Outcome	weightUnits		string	kg	1	1	1
+Outcome	siteOfRelapseOrProgression		string		2	2	2
+Outcome	intervalProgressionOrRecurrence		string		2	2	2
+Outcome	intervalRegressionOrDecreaseInDisease		string		2	2	2
+Outcome	levelOfMalignancy		string		2	2	2
+Outcome	treatmentInducedNeoplasmSite		string		2	2	2
+Outcome	dateOfDiagnosisOfTreatmentInducedNeoplasm		string		2	2	2
 Patient	autopsyTissueForResearch		string	yes/no	0	0	0
 Patient	causeOfDeath		string	Respiratory infections	1	1	1
 Patient	dateOfBirth		datetime		4	4	4
@@ -346,6 +352,31 @@ Tumourboard	tumorRnaSampleId		id		2	2	2
 Tumourboard	typeOfSampleAnalyzed		string	peripheral blood	2	2	2
 Tumourboard	typeOfTumourSampleAnalyzed		string		2	2	2
 Tumourboard	typeOfValidation		string		2	2	2
+Tumourboard	actionableExpressionOutlier		string		2	2	2
+Tumourboard	actionableGermlineVariant		string		2	2	2
+Tumourboard	germlineVariantsDrug		string		2	2	2
+Tumourboard	germlineVariantsDrugClass		string		2	2	2
+Tumourboard	germlineVariantsDiscussed		string		2	2	2
+Tumourboard	actionableSomaticVariants		string		2	2	2
+Tumourboard	somaticVariantsDrug		string		2	2	2
+Tumourboard	somaticVariantsDrugClass		string		2	2	2
+Tumourboard	somaticVariantsDiscussed		string		2	2	2
+Tumourboard	anyActionableExpressionOutlier		string		2	2	2
+Tumourboard	expressionDrug		string		2	2	2
+Tumourboard	expressionDrugClass		string		2	2	2
+Tumourboard	expressionTypeOfAnalysisUsed		string		2	2	2
+Tumourboard	expressionTypeOfInformationUtility		string		2	2	2
+Tumourboard	expressionAlteredGene		string		2	2	2
+Tumourboard	expressionNonActionableGene		string		2	2	2
+Tumourboard	expressionTypeOfAlteration		string		2	2	2
+Tumourboard	anyActionableGermlineVariants		string		2	2	2
+Tumourboard	germlineVariantsTypeOfAnalysisUsed		string		2	2	2
+Tumourboard	germlineVariantsClassificationOfVariants		string		2	2	2
+Tumourboard	germlineVariantsTypeOfInformationUtility		string		2	2	2
+Tumourboard	anyActionableSomaticVariants		string		2	2	2
+Tumourboard	somaticVariantsTypeOfAnalysisUsed		string		2	2	2
+Tumourboard	somaticVariantsTypeOfInformationUtility		string		2	2	2
+Tumourboard	somaticVariantsNonActionable		string		2	2	2
 VariantCalling	alignmentId		id		0	0	0
 VariantCalling	annotation		program	SNPEff 4.1a	1	1	1
 VariantCalling	clipFilter		program	filter_clips.R 3.4.0	1	1	1
