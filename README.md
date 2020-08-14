@@ -39,6 +39,7 @@ Assume we download a mock data file from the github repo linked above, and you h
 .. code:: bash
       wget https://raw.githubusercontent.com/CanDIG/candig-ingest/develop/candig/ingest/mock_data/clinical_metadata_tier1.json
       ingest candig-example-data/registry.db mock1 clinical_metadata_tier1.json -d "A collection of data from Mars"
+      
 
 You may see some warning messages that say "Skipped: Missing 1 or more primary identifiers for record ..." if you use the mock data, this is normal. 
 We designed the mock data to be faulty on purpose. For production data, however, you should not see this message.
