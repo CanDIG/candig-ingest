@@ -306,22 +306,6 @@ class CandigRepo(object):
         self._repo.insertLabtest(labtest)
         self._commit_record()
 
-    def add_individual(self, person):
-        self._repo.insertIndividual(person)
-        self._commit_record()
-
-    def add_biosample(self, biosample):
-        self._repo.insertBiosample(biosample)
-        self._commit_record()
-
-    def add_experiment(self, experiment):
-        self._repo.insertExperiment(experiment)
-        self._commit_record()
-
-    def add_analysis(self, analysis):
-        self._repo.insertAnalysis(analysis)
-        self._commit_record()
-
     def add_extraction(self, extraction):
         self._repo.insertExtraction(extraction)
         self._commit_record()
@@ -429,26 +413,6 @@ class CandigRepo(object):
     def update_labtest(self, labtest):
         self._repo.removeLabtest(labtest)
         self._repo.insertLabtest(labtest)
-        self._commit_record()
-
-    def update_individual(self, person):
-        self._repo.removeIndividual(person)
-        self._repo.insertIndividual(person)
-        self._commit_record()
-
-    def update_biosample(self, biosample):
-        self._repo.removeBiosample(biosample)
-        self._repo.insertBiosample(biosample)
-        self._commit_record()
-
-    def update_experiment(self, experiment):
-        self._repo.removeExperiment(experiment)
-        self._repo.insertExperiment(experiment)
-        self._commit_record()
-
-    def update_analysis(self, analysis):
-        self._repo.removeAnalysis(analysis)
-        self._repo.insertAnalysis(analysis)
         self._commit_record()
 
     def update_extraction(self, extraction):
