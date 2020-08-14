@@ -44,11 +44,14 @@ Ingest data
 
 As you can see from above, the `ingest` command only has 3 mandatory parameters.
 
-Assume we download a mock data file from the github repo linked above, and you have your candig-server's virtualenv activated, you will need to 
+If we download a mock data file from the github repo linked above, you will run something like below.
+
+You may want to double check if you are in your candig-server's virtualenv.
 
 .. code-block:: bash
 
       wget https://raw.githubusercontent.com/CanDIG/candig-ingest/develop/candig/ingest/mock_data/clinical_metadata_tier1.json
+
       ingest candig-example-data/registry.db mock1 clinical_metadata_tier1.json -d "A collection of data from Mars"
 
 
