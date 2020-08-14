@@ -13,7 +13,7 @@ This tool is not for standalone use. You must have an existing virtual environme
 
 Once you are in the virtual environment of where your candig-server is, activate it, and run
 
-.. code:: bash
+.. code-block:: bash
 
       pip install candig-ingest
 
@@ -37,7 +37,7 @@ As you can see from above, the `ingest` command only has 3 mandatory parameters.
 
 Assume we download a mock data file from the github repo linked above, and you have your candig-server's virtualenv activated, you will need to 
 
-.. code:: bash
+.. code-block:: bash
 
       wget https://raw.githubusercontent.com/CanDIG/candig-ingest/develop/candig/ingest/mock_data/clinical_metadata_tier1.json
       ingest candig-example-data/registry.db mock1 clinical_metadata_tier1.json -d "A collection of data from Mars"
@@ -57,7 +57,7 @@ If this applies to you, you should specify the `--overwrite` flag, this will upd
 
 If you do not see specify this flag, the system will warn you that a record with the same identifier exists.
 
-.. code:: bash
+.. code-block:: bash
 
       ingest candig-example-data/registry.db mock1 updated_data.json --overwrite
 
