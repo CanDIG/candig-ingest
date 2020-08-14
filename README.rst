@@ -6,6 +6,8 @@ A Python package for batch ingestion and update of clinical and pipeline metadat
 
 For more information related to the setup of a candig-server instance, check out https://candig-server.readthedocs.io/
 
+You may also refer to the SETUP.rst at this repo, from https://github.com/CanDIG/candig-ingest/blob/develop/setup.py
+
 # Get started
 
 This tool is not for standalone use. You must have an existing virtual environment where a candig-server is installed.
@@ -56,3 +58,4 @@ If you do not see specify this flag, the system will warn you that a record with
 .. code:: bash
       ingest candig-example-data/registry.db mock1 updated_data.json --overwrite
 
+Note that the description of the dataset cannot be changed once it's created, so a `-d` flag won't do anything.
