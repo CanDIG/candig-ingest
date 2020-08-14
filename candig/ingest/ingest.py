@@ -1,20 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-ingest.py - Creates a new dataset and parses metadata information into it.
-It populates all metadata tables
+ingest.py - Creates a new dataset for candig-server and batch ingest or update data for all clinical and pipeline tables.
 
 Usage:
   ingest [-h Help] [-v Version] [-d Description] [--overwrite] <repo_filename> <dataset_name> <metadata_json>
 
 Options:
-  -h --help        Show this screen
-  -v --version     Version
-  -d <description> A text description of the dataset.
+  -h --help        Show this screen.
+  -v --version     Version.
+  -d <description> A text description of the dataset to be created.
   --overwrite      If this flag is specified, existing records will be overwritten.
-  <repo_filename>  Repository filename and path information
-  <dataset_name>   Dataset name = project name
-  <metadata_json>  Metadata json object filename and path information
+  <repo_filename>  Path to the candig-server's SQLite database file.
+  <dataset_name>   Dataset name.
+  <metadata_json>  Path to the json file that contains clinical and pipeline data.
 
 """
 
