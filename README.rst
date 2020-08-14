@@ -36,10 +36,11 @@ Alternatively, if you need to export data from RedCap APIs, we provide a convers
 Ingest data
 ===========
 
-```
-Usage:
-  ingest [-h Help] [-v Version] [-d Description] [--overwrite] <path_to_database> <dataset_name> <metadata_json>
-```
+.. code-block:: bash
+
+      Usage:
+      ingest [-h Help] [-v Version] [-d Description] [--overwrite] <path_to_database> <dataset_name> <metadata_json>
+
 
 As you can see from above, the `ingest` command only has 3 mandatory parameters.
 
