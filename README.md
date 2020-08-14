@@ -1,4 +1,3 @@
-==============
 CanDIG-ingest
 ==============
 
@@ -8,7 +7,7 @@ For more information related to the setup of a candig-server instance, check out
 
 You may also refer to the SETUP.rst at this repo, from https://github.com/CanDIG/candig-ingest/blob/develop/setup.py
 
-# Get started
+## Get started
 
 This tool is not for standalone use. You must have an existing virtual environment where a candig-server is installed.
 
@@ -17,7 +16,7 @@ Once you are in the virtual environment of where your candig-server is, activate
 .. code:: bash
       pip install candig-ingest
 
-# Prepare data for ingestion
+## Prepare data for ingestion
 
 Once the package is installed, you may batch ingest or update data. The candig-ingest requires a specially-formatted json file for this purpose.
 This page describes the format of the data: https://candig-server.readthedocs.io/en/stable/data.html#clinical-and-pipeline-metadata
@@ -26,7 +25,7 @@ To help you get started quicker, we provide a few sample json files that are rea
 
 Alternatively, if you need to export data from RedCap APIs, we provide a conversion script that is available from https://github.com/CanDIG/redcap-cloud
 
-# Ingest data
+## Ingest data
 
 ```
 Usage:
@@ -47,7 +46,7 @@ We designed the mock data to be faulty on purpose. For production data, however,
 If you want to add a text description to your dataset, you should use the `-d` flag, note that the description cannot be updated at this time once 
 the dataset is created. This is optional, however.
 
-# Update data
+## Update data
 
 Assume you have data ingested to a database's dataset already, and would like to update them in batch. 
 
@@ -59,3 +58,7 @@ If you do not see specify this flag, the system will warn you that a record with
       ingest candig-example-data/registry.db mock1 updated_data.json --overwrite
 
 Note that the description of the dataset cannot be changed once it's created, so a `-d` flag won't do anything.
+
+## Questions and comments
+
+Please open an issue here and let us know!
