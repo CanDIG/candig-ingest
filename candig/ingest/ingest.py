@@ -5,11 +5,12 @@ ingest.py - Creates a new dataset and parses metadata information into it.
 It populates all metadata tables
 
 Usage:
-  ingest.py <repo_filename> <dataset_name> <metadata_json>
+  ingest [-h Help] [-v Version] [-d Description] <repo_filename> <dataset_name> <metadata_json>
 
 Options:
   -h --help        Show this screen
   -v --version     Version
+  -d <description>  A text description of the dataset.
   <repo_filename>  Repository filename and path information
   <dataset_name>   Dataset name = project name
   <metadata_json>  Metadata json object filename and path information
@@ -354,6 +355,7 @@ def main():
     repo_filename = args['<repo_filename>']
     dataset_name = args['<dataset_name>']
     metadata_json = args['<metadata_json>']
+    dataset_description = args.get('-d')
 
     # Read and parse profyle metadata json
     with open(metadata_json, 'r') as json_datafile:
@@ -361,7 +363,7 @@ def main():
 
     # Create a dataset
     dataset = Dataset(dataset_name)
-    dataset.setDescription('METADATA SERVER')
+    dataset.setDescription(dataset_description)
 
     # Open and load the data
     with CandigRepo(repo_filename) as repo:
