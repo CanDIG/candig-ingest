@@ -1,117 +1,84 @@
-==============
+=============
 CanDIG-ingest
-==============
+=============
 
-Routines for ingesting metadata into a CanDIG 1.0 server
-Requires [candig-server](https://github.com/candig/candig-server),
-[docopt](http://docopt.readthedocs.io/en/latest/)
-and [pandas](https://github.com/pandas-dev/pandas).
+A Python package for batch ingestion and update of clinical and pipeline metadata of candig-server.
 
-* Free software: GNU General Public License v3
+For more information related to the setup of a candig-server instance, check out https://candig-server.readthedocs.io/
 
+You may also refer to the SETUP.rst at this repo, from https://github.com/CanDIG/candig-ingest/blob/develop/setup.py
 
-You can run the ingestion and test a server with the resulting repo as follows 
-(requires Python 2.7 for candig-server<1.0.0, or Python 3.6 for candig-server>=1.0.0, note that Python 3.7 is not currently supported.)
+===========
+Get started
+===========
 
-.. code:: bash
+This tool is not for standalone use. You must have an existing virtual environment where a candig-server is installed.
 
-    # Install
-    virtualenv test_server # If you are running Python 2
-    python3 -m venv test_server # If you are running Python 3.6
-    
-    cd test_server
-    source bin/activate
-    pip install --upgrade pip setuptools
-    pip install candig-server # Specify anything <1.0.0 for Python 2.7, or >=1.0.0 for Python 3.6.
-    pip install candig-ingest
+Once you are in the virtual environment of where your candig-server is, activate it, and run
 
-    # ingest data and make the repo
-    mkdir candig-example-data
-    ingest candig-example-data/registry.db <path to example data, like: mock_data/clinical_metadata_tier1.json>
+.. code-block:: bash
 
-    # optional
-    # add peer site addresses
-    candig_repo add-peer candig-example-data/registry.db <peer site IP address, like: http://127.0.0.1:8001>
+      pip install candig-ingest
 
-    # optional
-    # create dataset for reads and variants
-    candig_repo add-dataset --description "Reads and variants dataset" candig-example-data/registry.db read_and_variats_dataset
+==========================
+Prepare data for ingestion
+==========================
 
-    # optinal
-    # add reference set, data source: https://www.ncbi.nlm.nih.gov/grc/human/ or http://genome.wustl.edu/pub/reference/
-    candig_repo add-referenceset candig-example-data/registry.db <path to downloaded reference set, like GRCh37-lite.fa> -d "GRCh37-lite human reference genome" --name GRCh37-lite --sourceUri "http://genome.wustl.edu/pub/reference/GRCh37-lite/GRCh37-lite.fa.gz"
+Once the package is installed, you may batch ingest or update data. The candig-ingest requires a specially-formatted json file for this purpose.
+This page describes the format of the data: https://candig-server.readthedocs.io/en/stable/data.html#clinical-and-pipeline-metadata
 
-    # optional
-    # add reads
-    candig_repo add-readgroupset -r -I <path to bam index file> -R GRCh37-lite candig-example-data/registry.db read_and_variats_dataset <path to bam file>
+To help you get started quicker, we provide a few sample json files that are ready to use, you may retrieve them from https://github.com/CanDIG/candig-ingest/tree/develop/candig/ingest/mock_data
 
-    # optional
-    # add variants
-    candig_repo add-variantset -I <path to variants index file> -R GRCh37-lite candig-example-data/registry.db read_and_variats_dataset <path to vcf file>
-    
-    # optional
-    # add sequence ontology set
-    # wget https://raw.githubusercontent.com/The-Sequence-Ontology/SO-Ontologies/master/so.obo
-    candig_repo add-ontology candig-example-data/registry.db <path to sequence ontology set, like: so.obo> -n so-xp
-
-    # optional
-    # add features/annotations
-    #
-    ## get the following scripts
-    # https://github.com/ga4gh/ga4gh-server/blob/master/scripts/glue.py
-    # https://github.com/ga4gh/ga4gh-server/blob/master/scripts/generate_gff3_db.py
-    #
-    ## download the relevant annotation release from Gencode
-    # https://www.gencodegenes.org/releases/current.html
-    #
-    ## decompress
-    # gunzip gencode.v27.annotation.gff3.gz
-    #
-    ## build the annotation database
-    # python generate_gff3_db.py -i gencode.v27.annotation.gff3 -o gencode.v27.annotation.db -v    
-    #
-    # build index for your annotation database
-    # Run "CREATE INDEX name_type_index ON FEATURE (gene_name, type)" in Sqlite browser
-    #
-    # add featureset
-    candig_repo add-featureset candig-example-data/registry.db read_and_variats_dataset <path to the annotation.db> -R GRCh37-lite -O so-xp
-
-    # optional
-    # add phenotype association set from Monarch Initiative
-    # wget http://nif-crawler.neuinfo.org/monarch/ttl/cgd.ttl
-    candig_repo add-phenotypeassociationset candig-example-data/registry.db read_and_variats_dataset <path to the folder containing cdg.ttl>
-
-    # optional
-    # add disease ontology set, like: NCIT
-    # wget http://purl.obolibrary.org/obo/ncit.obo
-    candig_repo add-ontology -n NCIT candig-example-data/registry.db ncit.obo
-
-    # launch the server at different IP and/or port:
-    candig_server --host 127.0.0.1 --port 8000 -c NoAuth
+Alternatively, if you need to export data from RedCap APIs, we provide a conversion script that is available from https://github.com/CanDIG/redcap-cloud
 
 
-    http://127.0.0.1:8000/
+===========
+Ingest data
+===========
+
+.. code-block:: bash
+
+      Usage:
+      ingest [-h Help] [-v Version] [-d Description] [--overwrite] <path_to_database> <dataset_name> <metadata_json>
 
 
-and then, from another terminal:
+As you can see from above, the `ingest` command only has 3 mandatory parameters.
 
-.. code:: bash
+If we download a mock data file from the github repo linked above, you will run something like below.
 
-    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' \
-        http://127.0.0.1:8000/datasets/search \
-        | jq '.'
+You may want to double check if you are in your candig-server's virtualenv.
 
-giving:
+.. code-block:: bash
 
-.. code:: JSON
+      wget https://raw.githubusercontent.com/CanDIG/candig-ingest/develop/candig/ingest/mock_data/clinical_metadata_tier1.json
 
-    {
-      "datasets": [
-        {
-          "description": "PROFYLE test metadata",
-          "id": "WyJQUk9GWUxFIl0",
-          "name": "PROFYLE"
-        }
-      ]
-    }
+      ingest candig-example-data/registry.db mock1 clinical_metadata_tier1.json -d "A collection of data from Mars"
 
+
+You may see some warning messages that say "Skipped: Missing 1 or more primary identifiers for record ..." if you use the mock data, this is normal. 
+We designed the mock data to be faulty on purpose. For production data, however, you should not see this message.
+
+If you want to add a text description to your dataset, you should use the `-d` flag, note that the description cannot be updated at this time once 
+the dataset is created. This is optional, however.
+
+===========
+Update data
+===========
+
+Assume you have data ingested to a database's dataset already, and would like to update them in batch. 
+
+If this applies to you, you should specify the `--overwrite` flag, this will update all records.
+
+If you do not see specify this flag, the system will warn you that a record with the same identifier exists.
+
+.. code-block:: bash
+
+      ingest candig-example-data/registry.db mock1 updated_data.json --overwrite
+
+Note that the description of the dataset cannot be changed once it's created, so a `-d` flag won't do anything.
+
+======================
+Questions and comments
+======================
+
+Please open an issue here and let us know!
