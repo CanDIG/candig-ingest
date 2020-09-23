@@ -485,38 +485,42 @@ def main():
                 for table in individual:
                     if table in metadata_map[metadata_key]:
 
-                        record = individual[table]
-                        local_id_list = []
-                        for x in metadata_map[metadata_key][table]['local_id']:
-                            if record.get(x):
-                                local_id_list.append(record[x])
-                            else:
-                                print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
-                                    table,
-                                    metadata_map[metadata_key][table]['local_id'],
-                                    local_id_list,
-                                    ))
-                                local_id_list = None
-                                break
-                        if not local_id_list:
-                            continue
+                        records = individual[table]
+                        if type(records) == dict:
+                            records = [records]
 
-                        local_id = "_".join(local_id_list)
+                        for record in records:
+                            local_id_list = []
+                            for x in metadata_map[metadata_key][table]['local_id']:
+                                if record.get(x):
+                                    local_id_list.append(record[x])
+                                else:
+                                    print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
+                                        table,
+                                        metadata_map[metadata_key][table]['local_id'],
+                                        local_id_list,
+                                        ))
+                                    local_id_list = None
+                                    break
+                            if not local_id_list:
+                                continue
 
-                        obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
-                        repo_obj = obj.populateFromJson(json.dumps(record))
+                            local_id = "_".join(local_id_list)
 
-                        # Add object into the repo file
-                        try:
-                            metadata_map[metadata_key][table]['repo_add'](repo_obj)
-                        except exceptions.DuplicateNameException:
-                            if args['--overwrite']:
-                                metadata_map[metadata_key][table]['repo_update'](repo_obj)
-                                print("Overwriting record for local identifier {} at {} table".format(
-                                    local_id, table))
-                            else:
-                                print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
-                                    table, local_id, metadata_map[metadata_key][table]['local_id']))
+                            obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
+                            repo_obj = obj.populateFromJson(json.dumps(record))
+
+                            # Add object into the repo file
+                            try:
+                                metadata_map[metadata_key][table]['repo_add'](repo_obj)
+                            except exceptions.DuplicateNameException:
+                                if args['--overwrite']:
+                                    metadata_map[metadata_key][table]['repo_update'](repo_obj)
+                                    print("Overwriting record for local identifier {} at {} table".format(
+                                        local_id, table))
+                                else:
+                                    print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
+                                        table, local_id, metadata_map[metadata_key][table]['local_id']))
 
     return None
 
