@@ -490,22 +490,31 @@ def main():
                             records = [records]
 
                         for record in records:
-                            local_id_list = []
-                            for x in metadata_map[metadata_key][table]['local_id']:
-                                if record.get(x):
-                                    local_id_list.append(record[x])
-                                else:
-                                    print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
-                                        table,
-                                        metadata_map[metadata_key][table]['local_id'],
-                                        local_id_list,
-                                        ))
-                                    local_id_list = None
-                                    break
-                            if not local_id_list:
-                                continue
+                            localId = ''
 
-                            local_id = "_".join(local_id_list)
+                            # If localId is present, use it as the localId
+                            # Otherwise, attempt to contruct localId from predetermined fields
+                            if record.get('localId'):
+                                local_id = record.get('localId')
+
+                            else:
+                                local_id_list = []
+                                for x in metadata_map[metadata_key][table]['local_id']:
+                                    if record.get(x):
+                                        local_id_list.append(record[x])
+                                    else:
+                                        print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
+                                            table,
+                                            metadata_map[metadata_key][table]['local_id'],
+                                            local_id_list,
+                                            ))
+                                        print("You may also specify localId to uniquely denote records.")
+                                        local_id_list = None
+                                        break
+                                if not local_id_list:
+                                    continue
+
+                                local_id = "_".join(local_id_list)
 
                             obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
                             repo_obj = obj.populateFromJson(json.dumps(record))
