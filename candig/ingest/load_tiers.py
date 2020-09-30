@@ -86,7 +86,7 @@ def get_updated_record(record, table_name, project, tiers):
 
             updated_record[field] = record[field]
 
-            if (table_name, field) in tiers.index:
+            if (table_name, field) in tiers.index and field != "localId":
                 tier = tiers.loc[[(table_name, field)], project.lower()]
                 updated_record['{0}Tier'.format(field)] = int(tier)
 
