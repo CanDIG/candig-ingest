@@ -490,7 +490,6 @@ def main():
                             records = [records]
 
                         for record in records:
-                            localId = ''
 
                             # If localId is present, use it as the localId
                             # Otherwise, attempt to contruct localId from predetermined fields
