@@ -91,8 +91,9 @@ def get_updated_record(record, table_name, project, tiers):
                 updated_record['{0}Tier'.format(field)] = int(tier)
 
             else:
-                logger.error('Unassigned tier info for {table}.{field}'.format(
-                    table=table_name, field=field))
+                if field != 'localId':
+                    logger.error('Unassigned tier info for {table}.{field}'.format(
+                        table=table_name, field=field))
 
     return updated_record
 
