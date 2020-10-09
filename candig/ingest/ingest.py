@@ -493,9 +493,12 @@ def main():
 
                             # If localId is present, use it as the localId
                             # Otherwise, attempt to contruct localId from predetermined fields
-                            if record.get('localId'):
-                                local_id = record.get('localId')
 
+                            if record.get('localId') and table in ['Patient', 'Sample']:
+                                print('localId should not be specified for the', table, 'table.')
+                            
+                            if record.get('localId') and table not in ['Patient', 'Sample']:
+                                local_id = record.get('patientId') + record.get('localId')
                             else:
                                 local_id_list = []
                                 for x in metadata_map[metadata_key][table]['local_id']:
