@@ -530,8 +530,8 @@ def main():
                                     print("Overwriting record for local identifier {} at {} table".format(
                                         local_id, table))
                                 else:
-                                    print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
-                                        table, local_id, metadata_map[metadata_key][table]['local_id']))
+                                    print("Skipped: Duplicate {0} record name detected: {1} ".format(
+                                        table, local_id))
 
     return None
 
