@@ -457,6 +457,8 @@ def main():
     metadata_json = args['<metadata_json>']
     dataset_description = args.get('-d')
 
+    objects_count = 0
+
     # Read and parse profyle metadata json
     with open(metadata_json, 'r') as json_datafile:
         metadata = json.load(json_datafile)
@@ -524,6 +526,7 @@ def main():
                             # Add object into the repo file
                             try:
                                 metadata_map[metadata_key][table]['repo_add'](repo_obj)
+                                objects_count += 1
                             except exceptions.DuplicateNameException:
                                 if args['--overwrite']:
                                     metadata_map[metadata_key][table]['repo_update'](repo_obj)
@@ -533,6 +536,7 @@ def main():
                                     logger.info("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
                                         table, local_id, metadata_map[metadata_key][table]['local_id']))
 
+    logger.info("{} objects have been ingested to {} dataset".format(objects_count, dataset_name))
     return None
 
 if __name__ == "__main__":
