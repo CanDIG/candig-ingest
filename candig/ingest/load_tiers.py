@@ -16,11 +16,11 @@ Options:
 """
 
 import json
-import logging
 import pandas as pd
 from docopt import docopt
 
-logging.basicConfig(level=logging.INFO)
+from candig.ingest_logging import logging
+
 logger = logging.getLogger(__name__)
 
 

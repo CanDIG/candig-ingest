@@ -21,6 +21,7 @@ import json
 import os
 from docopt import docopt
 
+from candig.ingest_logging import logging
 import candig.ingest._version as version
 
 import candig.server.datarepo as repo
@@ -54,6 +55,8 @@ from candig.server.datamodel.pipeline_metadata import Alignment
 from candig.server.datamodel.pipeline_metadata import VariantCalling
 from candig.server.datamodel.pipeline_metadata import FusionDetection
 from candig.server.datamodel.pipeline_metadata import ExpressionAnalysis
+
+logger = logging.getLogger(__name__)
 
 
 class CandigRepo(object):
@@ -502,12 +505,12 @@ def main():
                                     if record.get(x):
                                         local_id_list.append(record[x])
                                     else:
-                                        print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
+                                        logger.info("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
                                             table,
                                             metadata_map[metadata_key][table]['local_id'],
                                             local_id_list,
                                             ))
-                                        print("You may also specify localId to uniquely denote records.")
+                                        logger.info("You may also specify localId to uniquely denote records.")
                                         local_id_list = None
                                         break
                                 if not local_id_list:
@@ -524,10 +527,10 @@ def main():
                             except exceptions.DuplicateNameException:
                                 if args['--overwrite']:
                                     metadata_map[metadata_key][table]['repo_update'](repo_obj)
-                                    print("Overwriting record for local identifier {} at {} table".format(
+                                    logger.info("Overwriting record for local identifier {} at {} table".format(
                                         local_id, table))
                                 else:
-                                    print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
+                                    logger.info("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
                                         table, local_id, metadata_map[metadata_key][table]['local_id']))
 
     return None
