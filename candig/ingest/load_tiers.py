@@ -16,12 +16,12 @@ Options:
 """
 
 import json
-import logging
 import pandas as pd
 from docopt import docopt
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from candig.ingest_logging import logging
+
+logger = logging.getLogger()
 
 
 def get_updated_record(record, table_name, project, tiers):
