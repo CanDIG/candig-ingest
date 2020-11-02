@@ -4,13 +4,14 @@
 ingest.py - Creates a new dataset for candig-server and batch ingest or update data for all clinical and pipeline tables.
 
 Usage:
-  ingest [-h Help] [-v Version] [-d Description] [--overwrite] <repo_filename> <dataset_name> <metadata_json>
+  ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <repo_filename> <dataset_name> <metadata_json>
 
 Options:
   -h --help        Show this screen.
   -v --version     Version.
   -d <description> A text description of the dataset to be created.
   --overwrite      If this flag is specified, existing records will be overwritten.
+  -p LoggingPath   Path to directory where the logs will be saved.
   <repo_filename>  Path to the candig-server's SQLite database file.
   <dataset_name>   Dataset name.
   <metadata_json>  Path to the json file that contains clinical and pipeline data.
@@ -55,8 +56,6 @@ from candig.server.datamodel.pipeline_metadata import Alignment
 from candig.server.datamodel.pipeline_metadata import VariantCalling
 from candig.server.datamodel.pipeline_metadata import FusionDetection
 from candig.server.datamodel.pipeline_metadata import ExpressionAnalysis
-
-logger = logging.getLogger(__name__)
 
 
 class CandigRepo(object):
@@ -456,6 +455,9 @@ def main():
     dataset_name = args['<dataset_name>']
     metadata_json = args['<metadata_json>']
     dataset_description = args.get('-d')
+    logging_path = args.get('-p')
+
+    logger = logging.getLogger(path=logging_path)
 
     objects_count = 0
 
