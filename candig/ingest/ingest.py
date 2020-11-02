@@ -510,7 +510,8 @@ def main():
                                             metadata_map[metadata_key][table]['local_id'],
                                             local_id_list,
                                             ))
-                                        print("You may also specify localId to uniquely denote records.")
+                                        if table not in ['Patient', 'Sample']:
+                                            print("You may also specify localId to uniquely denote records.")
                                         local_id_list = None
                                         break
                                 if not local_id_list:
