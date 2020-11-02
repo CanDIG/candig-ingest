@@ -500,8 +500,11 @@ def main():
 
                             # If localId is present, use it as the localId
                             # Otherwise, attempt to contruct localId from predetermined fields
-                            if record.get('localId'):
-                                local_id = record.get('localId')
+                            if record.get('localId') and table in ['Patient', 'Sample']:
+                                logger.info('localId should not be specified for the', table, 'table.')
+
+                            if record.get('localId') and table not in ['Patient', 'Sample']:
+                                local_id = record.get('patientId') + record.get('localId')
 
                             else:
                                 local_id_list = []
@@ -514,7 +517,8 @@ def main():
                                             metadata_map[metadata_key][table]['local_id'],
                                             local_id_list,
                                             ))
-                                        logger.info("You may also specify localId to uniquely denote records.")
+                                        if table not in ['Patient', 'Sample']:
+                                            logger.info("You may also specify localId to uniquely denote records.")
                                         local_id_list = None
                                         break
                                 if not local_id_list:
@@ -535,8 +539,8 @@ def main():
                                     logger.info("Overwriting record for local identifier {} at {} table".format(
                                         local_id, table))
                                 else:
-                                    logger.info("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
-                                        table, local_id, metadata_map[metadata_key][table]['local_id']))
+                                    logger.info("Skipped: Duplicate {0} record name detected: {1} ".format(
+                                        table, local_id))
 
     logger.info("{} objects have been ingested to {} dataset".format(objects_count, dataset_name))
     return None
