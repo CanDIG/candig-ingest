@@ -39,7 +39,7 @@ Ingest data
 .. code-block:: bash
 
       Usage:
-      ingest [-h Help] [-v Version] [-d Description] [--overwrite] <path_to_database> <dataset_name> <metadata_json>
+      ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <repo_filename> <dataset_name> <metadata_json>
 
 
 As you can see from above, the `ingest` command only has 3 mandatory parameters.
@@ -76,6 +76,18 @@ If you do not see specify this flag, the system will warn you that a record with
       ingest candig-example-data/registry.db mock1 updated_data.json --overwrite
 
 Note that the description of the dataset cannot be changed once it's created, so a `-d` flag won't do anything.
+
+===========
+Log support
+===========
+
+By default all the actions performed by candig-ingest are logged and stored as log files on the same directory the ingest was called. 
+
+You may choose another place to store the log files by passing the `-p` argument every time you run the command:
+
+.. code-block:: bash
+
+      ingest candig-example-data/registry.db mock1 updated_data.json -p /home/user/Documents/logs 
 
 ======================
 Questions and comments
