@@ -21,7 +21,7 @@ from docopt import docopt
 
 from candig.ingest_logging import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 
 def get_updated_record(record, table_name, project, tiers):
