@@ -39,7 +39,7 @@ Ingest data
 .. code-block:: bash
 
       Usage:
-      ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <repo_filename> <dataset_name> <metadata_json>
+      ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <path_to_database> <dataset_name> <metadata_json>
 
 
 As you can see from above, the `ingest` command only has 3 mandatory parameters.

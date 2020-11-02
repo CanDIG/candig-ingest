@@ -4,7 +4,7 @@
 ingest.py - Creates a new dataset for candig-server and batch ingest or update data for all clinical and pipeline tables.
 
 Usage:
-  ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <repo_filename> <dataset_name> <metadata_json>
+  ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <path_to_database> <dataset_name> <metadata_json>
 
 Options:
   -h --help        Show this screen.
@@ -12,7 +12,7 @@ Options:
   -d <description> A text description of the dataset to be created.
   --overwrite      If this flag is specified, existing records will be overwritten.
   -p LoggingPath   Path to directory where the logs will be saved.
-  <repo_filename>  Path to the candig-server's SQLite database file.
+  <path_to_database>  Path to the candig-server's SQLite database file.
   <dataset_name>   Dataset name.
   <metadata_json>  Path to the json file that contains clinical and pipeline data.
 
@@ -451,7 +451,7 @@ def main():
     """
     # Parse arguments
     args = docopt(__doc__, version='ingest ' + str(version.version))
-    repo_filename = args['<repo_filename>']
+    path_to_database = args['<path_to_database>']
     dataset_name = args['<dataset_name>']
     metadata_json = args['<metadata_json>']
     dataset_description = args.get('-d')
@@ -470,7 +470,7 @@ def main():
     dataset.setDescription(dataset_description)
 
     # Open and load the data
-    with CandigRepo(repo_filename) as repo:
+    with CandigRepo(path_to_database) as repo:
 
         with repo._repo.database.transaction():
             # Add dataset
