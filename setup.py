@@ -22,14 +22,14 @@ test_requirements = [
 
 setup(
     name='candig-ingest',
-    version='1.3.1',
+    version='1.5.0',
     use_scm_version={"write_to": "candig/ingest/_version.py"},
     setup_requires=['setuptools_scm'],
     description='Routines for ingesting metadata to a CanDIG repository',
     long_description=readme,
     url='https://github.com/CanDIG/candig-ingest.git',
     author='CanDIG team',
-    author_email='info@distributedgenomics.ca',
+    author_email='candig@bcgsc.ca',
     packages=find_packages(include=['candig', 'candig.ingest']),
     namespace_packages=['candig'],
     entry_points={

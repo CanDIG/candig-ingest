@@ -4,14 +4,15 @@
 ingest.py - Creates a new dataset for candig-server and batch ingest or update data for all clinical and pipeline tables.
 
 Usage:
-  ingest [-h Help] [-v Version] [-d Description] [--overwrite] <repo_filename> <dataset_name> <metadata_json>
+  ingest [-h Help] [-v Version] [-d Description] [--overwrite] [-p LoggingPath] <path_to_database> <dataset_name> <metadata_json>
 
 Options:
   -h --help        Show this screen.
   -v --version     Version.
   -d <description> A text description of the dataset to be created.
   --overwrite      If this flag is specified, existing records will be overwritten.
-  <repo_filename>  Path to the candig-server's SQLite database file.
+  -p LoggingPath   Path to directory where the logs will be saved.
+  <path_to_database>  Path to the candig-server's SQLite database file.
   <dataset_name>   Dataset name.
   <metadata_json>  Path to the json file that contains clinical and pipeline data.
 
@@ -21,6 +22,7 @@ import json
 import os
 from docopt import docopt
 
+from candig.ingest_logging import logging
 import candig.ingest._version as version
 
 import candig.server.datarepo as repo
@@ -449,10 +451,15 @@ def main():
     """
     # Parse arguments
     args = docopt(__doc__, version='ingest ' + str(version.version))
-    repo_filename = args['<repo_filename>']
+    path_to_database = args['<path_to_database>']
     dataset_name = args['<dataset_name>']
     metadata_json = args['<metadata_json>']
     dataset_description = args.get('-d')
+    logging_path = args.get('-p')
+
+    logger = logging.getLogger(path=logging_path)
+
+    objects_count = 0
 
     # Read and parse profyle metadata json
     with open(metadata_json, 'r') as json_datafile:
@@ -463,7 +470,7 @@ def main():
     dataset.setDescription(dataset_description)
 
     # Open and load the data
-    with CandigRepo(repo_filename) as repo:
+    with CandigRepo(path_to_database) as repo:
 
         with repo._repo.database.transaction():
             # Add dataset
@@ -485,39 +492,57 @@ def main():
                 for table in individual:
                     if table in metadata_map[metadata_key]:
 
-                        record = individual[table]
-                        local_id_list = []
-                        for x in metadata_map[metadata_key][table]['local_id']:
-                            if record.get(x):
-                                local_id_list.append(record[x])
+                        records = individual[table]
+                        if type(records) == dict:
+                            records = [records]
+
+                        for record in records:
+
+                            # If localId is present, use it as the localId
+                            # Otherwise, attempt to contruct localId from predetermined fields
+                            if record.get('localId') and table in ['Patient', 'Sample']:
+                                logger.info('localId should not be specified for the', table, 'table.')
+
+                            if record.get('localId') and table not in ['Patient', 'Sample']:
+                                local_id = record.get('patientId') + record.get('localId')
+
                             else:
-                                print("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
-                                    table,
-                                    metadata_map[metadata_key][table]['local_id'],
-                                    local_id_list,
-                                    ))
-                                local_id_list = None
-                                break
-                        if not local_id_list:
-                            continue
+                                local_id_list = []
+                                for x in metadata_map[metadata_key][table]['local_id']:
+                                    if record.get(x):
+                                        local_id_list.append(record[x])
+                                    else:
+                                        logger.info("Skipped: Missing 1 or more primary identifiers for record in: {0} needs {1}, received {2}".format(
+                                            table,
+                                            metadata_map[metadata_key][table]['local_id'],
+                                            local_id_list,
+                                            ))
+                                        if table not in ['Patient', 'Sample']:
+                                            logger.info("You may also specify localId to uniquely denote records.")
+                                        local_id_list = None
+                                        break
+                                if not local_id_list:
+                                    continue
 
-                        local_id = "_".join(local_id_list)
+                                local_id = "_".join(local_id_list)
 
-                        obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
-                        repo_obj = obj.populateFromJson(json.dumps(record))
+                            obj = metadata_map[metadata_key][table]['table'](dataset, localId=local_id)
+                            repo_obj = obj.populateFromJson(json.dumps(record))
 
-                        # Add object into the repo file
-                        try:
-                            metadata_map[metadata_key][table]['repo_add'](repo_obj)
-                        except exceptions.DuplicateNameException:
-                            if args['--overwrite']:
-                                metadata_map[metadata_key][table]['repo_update'](repo_obj)
-                                print("Overwriting record for local identifier {} at {} table".format(
-                                    local_id, table))
-                            else:
-                                print("Skipped: Duplicate {0} detected for local name: {1} {2}".format(
-                                    table, local_id, metadata_map[metadata_key][table]['local_id']))
+                            # Add object into the repo file
+                            try:
+                                metadata_map[metadata_key][table]['repo_add'](repo_obj)
+                                objects_count += 1
+                            except exceptions.DuplicateNameException:
+                                if args['--overwrite']:
+                                    metadata_map[metadata_key][table]['repo_update'](repo_obj)
+                                    logger.info("Overwriting record for local identifier {} at {} table".format(
+                                        local_id, table))
+                                else:
+                                    logger.info("Skipped: Duplicate {0} record name detected: {1} ".format(
+                                        table, local_id))
 
+    logger.info("{} objects have been ingested to {} dataset".format(objects_count, dataset_name))
     return None
 
 if __name__ == "__main__":
